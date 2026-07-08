@@ -31,7 +31,7 @@ import java.io.File
 object BionicSteamAssetsDependency : LaunchDependency {
     private const val STEAM_EXE = "steam.exe"
     private const val BIONIC_STEAM_ARCHIVE = "steam-androidarm64.tzst"
-    private const val EXPERIMENTAL_DRM_ARCHIVE = "experimental-drm-20260116.tzst"
+    private const val STEAMCLIENT_DLLS_ARCHIVE = "steamclient-dlls-20260619.tzst"
     private const val LSTEAMCLIENT_DLL = "lsteamclient.dll"
     private const val LIBSTEAMCLIENT_SO = "libsteamclient.so"
     private const val CACERT_PEM = "cacert.pem"
@@ -44,6 +44,14 @@ object BionicSteamAssetsDependency : LaunchDependency {
 
     private fun system32SrcArchDir(container: Container): String =
         if (container.wineVersion.contains("arm64ec")) "aarch64-windows" else "x86_64-windows"
+
+    private fun unixArchDir(container: Container): String =
+        if (container.wineVersion.contains("arm64ec")) "aarch64-unix" else "x86_64-unix"
+
+    private fun lsteamclientUnixSo(context: Context, container: Container): File {
+        val wineDir = wineInstallDir(context, container)
+        return File(wineDir, "lib/wine/${unixArchDir(container)}/lsteamclient.so")
+    }
 
     /**
      * Resolves the actual Wine/Proton install directory for the container.
@@ -79,10 +87,11 @@ object BionicSteamAssetsDependency : LaunchDependency {
         val filesDir = imageFs.filesDir
         if (!File(filesDir, STEAM_EXE).exists()) return false
         if (!File(filesDir, CACERT_PEM).exists()) return false
-        if (!File(filesDir, EXPERIMENTAL_DRM_ARCHIVE).exists()) return false
+        if (!File(filesDir, STEAMCLIENT_DLLS_ARCHIVE).exists()) return false
         if (!libsteamclientSo(imageFs).exists()) return false
         if (lsteamclientArchiveFor(container) != null) {
             if (!system32Dll(container).exists() || !syswow64Dll(container).exists()) return false
+            if (!lsteamclientUnixSo(context, container).exists()) return false
         }
         return true
     }
@@ -114,15 +123,15 @@ object BionicSteamAssetsDependency : LaunchDependency {
             }
         }
 
-        val experimentalDrmCache = File(filesDir, EXPERIMENTAL_DRM_ARCHIVE)
-        if (!withContext(Dispatchers.IO) { experimentalDrmCache.exists() }) {
-            callbacks.setLoadingMessage("Downloading $EXPERIMENTAL_DRM_ARCHIVE")
+        val steamclientDllsCache = File(filesDir, STEAMCLIENT_DLLS_ARCHIVE)
+        if (!withContext(Dispatchers.IO) { steamclientDllsCache.exists() }) {
+            callbacks.setLoadingMessage("Downloading $STEAMCLIENT_DLLS_ARCHIVE")
             withContext(Dispatchers.IO) {
                 SteamService.downloadFile(
                     onDownloadProgress = { callbacks.setLoadingProgress(it) },
                     parentScope = this@coroutineScope,
                     context = context,
-                    fileName = EXPERIMENTAL_DRM_ARCHIVE,
+                    fileName = STEAMCLIENT_DLLS_ARCHIVE,
                 ).await()
             }
         }
@@ -145,8 +154,11 @@ object BionicSteamAssetsDependency : LaunchDependency {
         if (lsteamclientArchive != null) {
             val dllSystem32 = system32Dll(container)
             val dllSyswow64 = syswow64Dll(container)
-            val dllsPresent = withContext(Dispatchers.IO) { dllSystem32.exists() && dllSyswow64.exists() }
-            if (!dllsPresent) {
+            val unixSo = lsteamclientUnixSo(context, container)
+            val allFilesPresent = withContext(Dispatchers.IO) {
+                dllSystem32.exists() && dllSyswow64.exists() && unixSo.exists()
+            }
+            if (!allFilesPresent) {
                 val archiveCache = File(filesDir, lsteamclientArchive)
                 if (!withContext(Dispatchers.IO) { archiveCache.exists() }) {
                     callbacks.setLoadingMessage("Downloading $lsteamclientArchive")

@@ -9,6 +9,7 @@ import app.gamenative.db.dao.AmazonGameDao
 import app.gamenative.db.dao.CachedLicenseDao
 import app.gamenative.db.dao.DownloadingAppInfoDao
 import app.gamenative.db.dao.EncryptedAppTicketDao
+import app.gamenative.db.dao.LibraryPlayHistoryDao
 import app.gamenative.db.dao.SteamUnlockedBranchDao
 import app.gamenative.db.migration.ROOM_MIGRATION_V7_to_V8
 import dagger.Module
@@ -43,11 +44,19 @@ class DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideSteamFileHashCacheDao(db: PluviaDatabase) = db.steamFileHashCacheDao()
+
+    @Provides
+    @Singleton
     fun provideAppChangeNumbersDao(db: PluviaDatabase) = db.appChangeNumbersDao()
 
     @Provides
     @Singleton
     fun provideAppFileChangeListsDao(db: PluviaDatabase) = db.appFileChangeListsDao()
+
+    @Provides
+    @Singleton
+    fun provideLibraryPlayHistoryDao(db: PluviaDatabase): LibraryPlayHistoryDao = db.libraryPlayHistoryDao()
 
     @Provides
     @Singleton

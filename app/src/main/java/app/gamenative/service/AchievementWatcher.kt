@@ -28,6 +28,7 @@ class AchievementWatcher(
     private var uploadJob: Job? = null
 
     fun start() {
+        Timber.tag("achievements").d("Achievement Watcher Started for appId=$appId")
         // Snapshot all currently earned achievements so we don't notify for
         // pre-existing unlocks when the game writes its initial achievements.json.
         for (dir in watchDirs) {
@@ -120,6 +121,7 @@ class AchievementWatcher(
 
         if (!SteamService.isConnected) {
             Timber.tag("achievements").w("Not connected to Steam, skipping real-time achievement upload for appId=$appId")
+            SteamService.instance?.addPendingSyncApp(appId)
             return
         }
 
