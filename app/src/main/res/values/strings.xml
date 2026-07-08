@@ -1526,4 +1526,12 @@
     <string name="game_launch_tip_22">Tip: You can enable touchscreen mode.</string>
     <string name="game_launch_tip_23">Tip: If you have a Mali GPU, please use System Drivers.</string>
     <string name="game_launch_tip_24">Tip: Getting a blank screen? Try using the \"%s\" option in the menu to check if your drivers are working correctly.</string>
+    <string name="settings_network_title">Network</string>
+    <string name="settings_network_dns_enable_title">Custom DNS</string>
+    <string name="settings_network_dns_enable_subtitle">When enabled, DNS queries use the configured servers instead of the system default</string>
+    <string name="settings_network_dns_servers_title">DNS Servers</string>
+    <string name="settings_network_dns_servers_empty">Not configured</string>
+    <string name="settings_network_dns_servers_dialog_title">DNS Servers</string>
+    <string name="settings_network_dns_servers_dialog_hint">Enter one DNS server address per line, or separate with commas</string>
+    <string name="settings_network_dns_servers_placeholder">e.g.\n8.8.8.8\n1.1.1.1</string>
 </resources>
