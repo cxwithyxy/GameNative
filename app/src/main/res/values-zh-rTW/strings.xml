@@ -1645,4 +1645,6 @@
     <string name="option_share_diagnostics">分享診斷</string>
     <string name="diagnostics_share_title">分享診斷日誌</string>
     <string name="diagnostics_share_none">尚無診斷日誌。請先使用「診斷執行」。</string>
+    <string name="settings_steam_disable_auto_reconnect">禁止 Steam 自動重連</string>
+    <string name="settings_steam_disable_auto_reconnect_subtitle">啟動時不連接 Steam 伺服器，保持離線狀態。重新開啟後可恢復連線。</string>
 </resources>

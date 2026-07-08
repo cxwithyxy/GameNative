@@ -537,6 +537,13 @@ object PrefManager {
             setPref(STEAM_OFFLINE_MODE, value)
         }
 
+    private val STEAM_DISABLE_AUTO_RECONNECT = booleanPreferencesKey("steam_disable_auto_reconnect")
+    var steamDisableAutoReconnect: Boolean
+        get() = getPref(STEAM_DISABLE_AUTO_RECONNECT, false)
+        set(value) {
+            setPref(STEAM_DISABLE_AUTO_RECONNECT, value)
+        }
+
     private val EPIC_OFFLINE_MODE = booleanPreferencesKey("epic_offline_mode")
     var epicOfflineMode: Boolean
         get() = getPref(EPIC_OFFLINE_MODE, false)

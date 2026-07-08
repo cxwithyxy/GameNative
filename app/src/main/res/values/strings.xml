@@ -1643,4 +1643,6 @@
     <string name="settings_network_dns_servers_dialog_hint">Enter one DNS server address per line, or separate with commas</string>
     <string name="settings_network_dns_servers_placeholder">e.g.\n8.8.8.8\n1.1.1.1</string>
     <string name="game_launch_tip_25">Tip: Use Proton x86-64 if you can\'t click the mouse in games.</string>
+    <string name="settings_steam_disable_auto_reconnect">Disable Steam auto-reconnect</string>
+    <string name="settings_steam_disable_auto_reconnect_subtitle">Stop connecting to Steam servers on startup and stay offline. Re-enable to reconnect.</string>
 </resources>

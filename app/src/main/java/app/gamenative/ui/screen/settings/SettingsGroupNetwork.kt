@@ -34,6 +34,7 @@ fun SettingsGroupNetwork() {
     var dnsEnabled by rememberSaveable { mutableStateOf(PrefManager.dnsEnabled) }
     var dnsServersStr by rememberSaveable { mutableStateOf(PrefManager.dnsServers) }
     var showDnsDialog by rememberSaveable { mutableStateOf(false) }
+    var steamDisableAutoReconnect by rememberSaveable { mutableStateOf(PrefManager.steamDisableAutoReconnect) }
 
     // DNS servers edit dialog
     if (showDnsDialog) {
@@ -120,6 +121,21 @@ fun SettingsGroupNetwork() {
                 Text(text = summary)
             },
             onClick = { showDnsDialog = true },
+        )
+    }
+
+    Spacer(modifier = Modifier.height(12.dp))
+
+    SettingsGroup {
+        SettingsSwitch(
+            colors = settingsTileColors(),
+            state = steamDisableAutoReconnect,
+            title = { Text(text = stringResource(R.string.settings_steam_disable_auto_reconnect)) },
+            subtitle = { Text(text = stringResource(R.string.settings_steam_disable_auto_reconnect_subtitle)) },
+            onCheckedChange = { checked ->
+                steamDisableAutoReconnect = checked
+                PrefManager.steamDisableAutoReconnect = checked
+            },
         )
     }
 }
