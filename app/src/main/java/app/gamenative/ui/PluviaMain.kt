@@ -1258,7 +1258,7 @@ if (!PrefManager.updateCheckEnabled || BuildConfig.MODERN_ANDROID) return@Launch
 
             // Connection status banner (overlay) - dismissible so users can access navigation
             if (state.currentScreen != PluviaScreen.LoginUser && !connectionBannerDismissed && initialConnectDone && !state.isSteamConnected &&
-                SteamUtils.hasStoredCredentials()) {
+                SteamUtils.hasStoredCredentials() && !PrefManager.steamOfflineMode) {
                 Box(modifier = Modifier.zIndex(5f)) {
                     ConnectionStatusBanner(
                         connectionState = state.connectionState,
