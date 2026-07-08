@@ -135,8 +135,6 @@ public class Container {
     private boolean touchscreenMode = false;
     // Input controls overlay visible
     private boolean inputControlsVisible = true;
-    // Touchscreen mode (defaults on for XR builds)
-    private boolean touchscreenMode = app.gamenative.BuildConfig.XR_BUILD;
     // Shooter mode
     private boolean shooterMode = true;
     // Serialised JSON gesture configuration (used when touchscreenMode is true)

@@ -82,8 +82,6 @@ data class ContainerData(
     val touchscreenMode: Boolean = false,
     /** Show input controls overlay when game starts **/
     val inputControlsVisible: Boolean = true,
-    /** Touchscreen mode (defaults on for XR builds) **/
-    val touchscreenMode: Boolean = app.gamenative.BuildConfig.XR_BUILD,
     /** Shooter mode (auto-replace sticks with dynamic joysticks) **/
     val shooterMode: Boolean = true,
     /** Serialised JSON gesture configuration (used when touchscreenMode is true) **/

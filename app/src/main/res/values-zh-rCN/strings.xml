@@ -1614,7 +1614,6 @@
     <string name="settings_network_dns_servers_dialog_title">DNS 服务器</string>
     <string name="settings_network_dns_servers_dialog_hint">每行输入一个 DNS 服务器地址，也可用逗号分隔</string>
     <string name="settings_network_dns_servers_placeholder">例如\n8.8.8.8\n1.1.1.1</string>
-</resources>
 
     <!-- Frontend Sync Settings -->
     <string name="settings_interface_frontend_sync_title">前端同步</string>

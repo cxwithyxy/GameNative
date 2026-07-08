@@ -1603,7 +1603,6 @@
     <string name="settings_network_dns_servers_dialog_title">DNS 伺服器</string>
     <string name="settings_network_dns_servers_dialog_hint">每行輸入一個 DNS 伺服器位址，也可用逗號分隔</string>
     <string name="settings_network_dns_servers_placeholder">例如\n8.8.8.8\n1.1.1.1</string>
-</resources>
 
     <!-- Frontend Sync Settings -->
     <string name="settings_interface_frontend_sync_title">前端同步</string>
