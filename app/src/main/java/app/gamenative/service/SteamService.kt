@@ -3714,7 +3714,7 @@ class SteamService : Service(), IChallengeUrlChanged {
         offlineAchievementSyncJob?.cancel()
         offlineAchievementSyncJob = null
 
-        if (!isStopping && retryAttempt < MAX_RETRY_ATTEMPTS) {
+        if (!isStopping && retryAttempt < MAX_RETRY_ATTEMPTS && !PrefManager.steamDisableAutoReconnect) {
             retryAttempt++
             val backoffMs = (1000L * minOf(1 shl (retryAttempt - 1), 60)).coerceAtMost(60_000L)
 

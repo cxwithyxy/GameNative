@@ -1259,7 +1259,7 @@ if (!PrefManager.updateCheckEnabled || BuildConfig.MODERN_ANDROID) return@Launch
 
             // Connection status banner (overlay) - dismissible so users can access navigation
             if (state.currentScreen != PluviaScreen.LoginUser && !connectionBannerDismissed && initialConnectDone && !state.isSteamConnected &&
-                SteamUtils.hasStoredCredentials() && !PrefManager.steamOfflineMode) {
+                SteamUtils.hasStoredCredentials() && !PrefManager.steamDisableAutoReconnect) {
                 Box(modifier = Modifier.zIndex(5f)) {
                     ConnectionStatusBanner(
                         connectionState = state.connectionState,
@@ -1576,7 +1576,8 @@ private fun resolveEffectiveOffline(context: Context, appId: String, navOffline:
     val container = containerManager.getContainerById(appId) ?: return false
     val result = container.isSteamOfflineMode
     if (result) {
-        Timber.i("resolveEffectiveOffline: container offline mode active for $appId")
+        Timber.i("resolveEffectiveOffline: container offline mode active for $appId — disabling auto-reconnect")
+        PrefManager.steamDisableAutoReconnect = true
     }
     return result
 }
