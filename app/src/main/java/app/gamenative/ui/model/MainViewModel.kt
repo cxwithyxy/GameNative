@@ -110,13 +110,17 @@ class MainViewModel @Inject constructor(
 
     private val onSteamDisconnected: (SteamEvent.Disconnected) -> Unit = { event ->
         Timber.i("Received disconnected from Steam (terminal=${event.isTerminal})")
+        val suppressForOffline = PrefManager.steamOfflineMode
+        if (suppressForOffline) {
+            Timber.i("Steam offline mode configured — suppressing disconnected state")
+        }
         _state.update {
             it.copy(
                 isSteamConnected = false,
-                connectionState = if (it.connectionState != ConnectionState.OFFLINE_MODE) {
-                    ConnectionState.DISCONNECTED
-                } else {
-                    it.connectionState // Keep offline mode if user chose it
+                connectionState = when {
+                    suppressForOffline -> ConnectionState.OFFLINE_MODE
+                    it.connectionState == ConnectionState.OFFLINE_MODE -> it.connectionState
+                    else -> ConnectionState.DISCONNECTED
                 },
                 connectionMessage = null,
             )
@@ -126,13 +130,17 @@ class MainViewModel @Inject constructor(
 
     private val onRemotelyDisconnected: (SteamEvent.RemotelyDisconnected) -> Unit = {
         Timber.i("Received remotely disconnected from Steam")
+        val suppressForOffline = PrefManager.steamOfflineMode
+        if (suppressForOffline) {
+            Timber.i("Steam offline mode configured — suppressing disconnected state")
+        }
         _state.update {
             it.copy(
                 isSteamConnected = false,
-                connectionState = if (it.connectionState != ConnectionState.OFFLINE_MODE) {
-                    ConnectionState.DISCONNECTED
-                } else {
-                    it.connectionState // Keep offline mode if user chose it
+                connectionState = when {
+                    suppressForOffline -> ConnectionState.OFFLINE_MODE
+                    it.connectionState == ConnectionState.OFFLINE_MODE -> it.connectionState
+                    else -> ConnectionState.DISCONNECTED
                 },
                 connectionMessage = null,
             )
