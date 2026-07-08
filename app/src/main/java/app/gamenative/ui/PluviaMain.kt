@@ -676,7 +676,8 @@ if (!PrefManager.updateCheckEnabled || BuildConfig.MODERN_ANDROID) return@Launch
             // Only attempt reconnection if not already connected/connecting and not in offline mode
             val shouldAttemptReconnect = !state.isSteamConnected &&
                 !isConnecting &&
-                !SteamService.keepAlive
+                !SteamService.keepAlive &&
+                !PrefManager.steamOfflineMode
 
             if (shouldAttemptReconnect) {
                 Timber.d("[PluviaMain]: Steam not connected - attempting reconnection")
