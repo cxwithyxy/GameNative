@@ -68,8 +68,11 @@ android {
         buildConfigField("boolean", "XR_BUILD", "false")
         buildConfigField("boolean", "MODERN_XR", "false")
 
-        versionCode = 19
-        versionName = "1.1.0"
+        versionCode = 22
+        versionName = "1.2.0-" + providers.exec {
+            commandLine("git", "rev-parse", "--short", "HEAD")
+            workingDir = projectDir
+        }.standardOutput.asText.get().trim()
 
         buildConfigField("boolean", "GOLD", "false")
         fun secret(name: String) =
